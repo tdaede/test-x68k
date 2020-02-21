@@ -1,5 +1,5 @@
 // based on musl libc syscall
-static inline long __syscall_a1(unsigned char n, long a)
+static inline long __iocscall_a1(unsigned char n, long a)
 {
 	register unsigned long d0 __asm__("d0") = n;
 	register unsigned long a1 __asm__("a1") = a;
@@ -9,8 +9,16 @@ static inline long __syscall_a1(unsigned char n, long a)
 	return d0;
 }
 
-char* s = "Hello, world!\n";
+static inline void __exit()
+{
+	__asm__ __volatile__ (".short 0xff00" :
+                        :
+                        : "memory");
+}
+
+const char *s = "Hello, world!\r\n";
 
 void _start() {
-  __syscall_a1(0x21, (long)s);
+  __iocscall_a1(0x21, (long)s);
+  __exit();
 }
