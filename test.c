@@ -1,3 +1,5 @@
+#include <iocs.h>
+
 // based on musl libc syscall
 static inline long __iocscall_a1(unsigned char n, long a)
 {
@@ -20,5 +22,6 @@ const char *s = "Hello, world!\r\n";
 
 void _start() {
   __iocscall_a1(0x21, (long)s);
+  _iocs_b_print(s);
   __exit();
 }
