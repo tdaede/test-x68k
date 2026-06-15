@@ -1,17 +1,22 @@
 /* Default linker script, for normal executables */
 OUTPUT_FORMAT("elf32-m68k")
-SEARCH_DIR("/home/thomas/.local/human68k/lib");
+/* SEARCH_DIR("/home/thomas/.local/human68k/lib"); */
 ENTRY (_start)
+__data_size = 0;
+stack_size = 8192;
 SECTIONS
 {
   /DISCARD/ : {
     *(.note.*)
     *(.comment)
   }
-  .text  0x000000 : {
+  .text : {
+    KEEP (*(.text.init.enter))
+   	KEEP (*(.data.init.enter))
+    *(.init)
+    *(.init.*)
      *(.header)
     . = ALIGN(4);
-     *(.init)
     *(.text)
     *(.text.*)
      *(.fini)
@@ -19,14 +24,15 @@ SECTIONS
      etext = .;
      _etext = .;
   }
-  .data  SIZEOF(.text) + ADDR(.text) :
-  {
+  .data : {
      __ctors_start = . ;
      *(.ctors)
      __ctors_end = . ;
      __dtors_start = . ;
      *(.dtors)
      __dtors_end = . ;
+     __data_source = . ;
+     __data_start = . ;
     KEEP(SORT(*)(.ctors))
     KEEP(SORT(*)(.dtors))
     *(.data)
@@ -41,15 +47,17 @@ SECTIONS
      edata = .;
      _edata = .;
   }
-  .bss  SIZEOF(.data) + ADDR(.data) :
+  .bss :
   {
+    __bss_start = .;
     *(.bss)
     *(COMMON)
     . = ALIGN (2);
      end = .;
      _end = .;
+     __bss_size = . - __bss_start;
+     __tls_base = .;
+     . += stack_size;
+     __stack = .;
   }
-  .comment 0 (NOLOAD) : { [ .comment ] [ .ident ] }
-  .stab 0 (NOLOAD) : { [ .stab ] }
-  .stabstr 0 (NOLOAD) : { [ .stabstr ] }
 }

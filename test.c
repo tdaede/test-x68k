@@ -18,7 +18,7 @@ static inline void __exit()
 
 const char *s = "Hello, world!\r\n";
 
-void _start() {
+int main(int argc, char *argv[]) {
   __iocscall_a1(0x21, (long)s);
   __exit();
 }
