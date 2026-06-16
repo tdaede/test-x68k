@@ -1,4 +1,15 @@
+#include "iocs.h"
+
 // based on musl libc syscall
+static inline long __iocscall(unsigned char n)
+{
+	register unsigned long d0 __asm__("d0") = n;
+	__asm__ __volatile__ ("trap #15" : "+r"(d0)
+                        :
+                        : "memory");
+	return d0;
+}
+
 static inline long __iocscall_a1(unsigned char n, long a)
 {
 	register unsigned long d0 __asm__("d0") = n;

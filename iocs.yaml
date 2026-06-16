@@ -1,0 +1,64 @@
+b_keyinp:
+  n: 0x00
+  out: d0.w
+b_keysns:
+  n: 0x01
+  out: d0.l
+b_sftsns:
+  n: 0x02
+  out: d0.l
+key_init:
+  n: 0x03
+  in: d1.b
+bitsns:
+  n: 0x04
+  in: d1.w
+  out: d0.b
+skeyset:
+  n: 0x05
+  in: d1.l
+ledctrl:
+  n: 0x06
+  in: d1.b
+ledset:
+  n: 0x07
+keydly:
+  n: 0x08
+  in: d1.b
+keyrep:
+  n: 0x09
+  in: d1.b
+tvctrl:
+  n: 0x0c
+  in: d1.l
+  clobber: d1.l
+ledmod:
+  n: 0x0d
+  in: [d1.l, d2.b]
+  out: d0.l
+tgusemd:
+  n: 0x0e
+  in: [d1.b, d2.b]
+  out: d2.b
+defchr:
+  n: 0x0f
+  in: [d1.hw, d1.w, a1.l]
+  out: d0.l
+crtmod:
+  n: 0x10
+  in: d1.w
+contrast:
+  n: 0x11
+  in: d1.b
+hsvtorgb:
+  n: 0x12
+  in: d1.l
+  out: d1.l
+tpalet:
+  n: 0x13
+  in: [d1.b, d2.l]
+  out: d0.l
+tpalet2:
+  n: 0x14
+  in: [d1.b, d2.l]
+  out: d0.l
